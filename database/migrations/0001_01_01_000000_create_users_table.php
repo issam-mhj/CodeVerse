@@ -15,6 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('profession')->nullable();
+            $table->string('image')->nullable();
+            $table->string('location')->nullable();
+            $table->integer('age')->nullable();
+            $table->json('skills')->nullable();
+            $table->json('hardSkills')->nullable();
+            $table->json('languages')->nullable();
+            $table->string('githubProfile')->nullable();
+            $table->text('biography')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
