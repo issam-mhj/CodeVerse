@@ -154,8 +154,8 @@
 
                                 <div class="flex">
                                     <span class="text-gray-600 w-24">Location:</span>
-                                    @if ($user->age)
-                                        <span class="text-gray-800">{{ $user->age }}</span>
+                                    @if ($user->location)
+                                        <span class="text-gray-800">{{ $user->location }}</span>
                                     @else
                                         <span class="text-red-500 italic">Complete your profile information</span>
                                     @endif
@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <div class="bg-white rounded-lg p-6 shadow-sm">
-                        <h2 class="text-xl font-bold mb-4">Soft Skills</h2>
+                        <h2 class="text-xl font-bold mb-4">certifications</h2>
 
                         <div class="space-y-4">
                             <div>

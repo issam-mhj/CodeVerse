@@ -121,7 +121,8 @@
             </div>
 
             <!-- Profile Form -->
-            <form class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <form class="bg-white rounded-lg shadow-sm p-6 mb-6" method="POST" action="/profile/update">
+                @csrf
                 <!-- Profile Picture Section -->
                 <div class="mb-8">
                     <h2 class="text-lg font-semibold mb-4">Profile Picture</h2>
@@ -178,10 +179,18 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">email</label>
+                            <input type="email" id="email" name="email"
+                                @if ($user->email) value="{{ $user->email }}"
+                            @else
+                            placeholder="" @endif
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
                             <label for="github" class="block text-sm font-medium text-gray-700 mb-1">GitHub
                                 Profile</label>
-                            <input type="url" id="github" name="github"
-                                @if ($user->githubProfiles) value="{{ $user->githubProfile }}"
+                            <input type="text" id="github" name="githubProfile"
+                                @if ($user->githubProfile) value="{{ $user->githubProfile }}"
                             @else placeholder="https://github.com/username" @endif
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
@@ -190,59 +199,26 @@
 
                 <!-- Bio Section -->
                 <div class="mb-8">
-                    <h2 class="text-lg font-semibold mb-4">Biography</h2>
+                    <h2 class="text-lg font-semibold mb-4">biography</h2>
                     <div>
                         <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Tell us about
                             yourself</label>
-                        <textarea id="bio" name="bio" rows="4" placeholder="Share your professional story and interests..."
+                        <textarea id="bio" name="biography" rows="4"
+                            placeholder="Share your professional story and interests..."
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
                         <p class="text-xs text-gray-500 mt-1">Maximum 500 characters</p>
                     </div>
                 </div>
-
                 <!-- Skills Section -->
                 <div class="mb-8">
                     <h2 class="text-lg font-semibold mb-4">Skills</h2>
 
                     <!-- Technical Skills -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">Technical Skills</label>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="javascript" name="tech_skills[]" value="JavaScript"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="javascript" class="ml-2 text-sm">JavaScript</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="python" name="tech_skills[]" value="Python"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="python" class="ml-2 text-sm">Python</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="react" name="tech_skills[]" value="React"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="react" class="ml-2 text-sm">React</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="node" name="tech_skills[]" value="Node.js"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="node" class="ml-2 text-sm">Node.js</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="vue" name="tech_skills[]" value="Vue.js"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="vue" class="ml-2 text-sm">Vue.js</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="php" name="tech_skills[]" value="PHP"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="php" class="ml-2 text-sm">PHP</label>
-                            </div>
-                        </div>
                         <div class="mt-3">
-                            <label for="other_tech" class="block text-sm font-medium text-gray-700 mb-1">Other
-                                technical skills</label>
-                            <input type="text" id="other_tech" name="other_tech"
+                            <label for="other_tech" class="block text-sm font-medium text-gray-700 mb-1">technical
+                                skills</label>
+                            <input type="text" id="other_tech" name="tech"
                                 placeholder="Separate skills with commas"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
@@ -250,43 +226,10 @@
 
                     <!-- Soft Skills -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">Soft Skills</label>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="teamwork" name="soft_skills[]" value="Teamwork"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="teamwork" class="ml-2 text-sm">Teamwork</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="communication" name="soft_skills[]" value="Communication"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="communication" class="ml-2 text-sm">Communication</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="problem-solving" name="soft_skills[]"
-                                    value="Problem Solving" class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="problem-solving" class="ml-2 text-sm">Problem Solving</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="adaptability" name="soft_skills[]" value="Adaptability"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="adaptability" class="ml-2 text-sm">Adaptability</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="creativity" name="soft_skills[]" value="Creativity"
-                                    class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="creativity" class="ml-2 text-sm">Creativity</label>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-md">
-                                <input type="checkbox" id="time-management" name="soft_skills[]"
-                                    value="Time Management" class="h-4 w-4 text-primary focus:ring-primary">
-                                <label for="time-management" class="ml-2 text-sm">Time Management</label>
-                            </div>
-                        </div>
                         <div class="mt-3">
-                            <label for="other_soft" class="block text-sm font-medium text-gray-700 mb-1">Other soft
-                                skills</label>
-                            <input type="text" id="other_soft" name="other_soft"
+                            <label for="other_soft"
+                                class="block text-sm font-medium text-gray-700 mb-1">certifications</label>
+                            <input type="text" id="other_soft" name="cert"
                                 placeholder="Separate skills with commas"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
@@ -295,43 +238,10 @@
                     <!-- Languages -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-3">Programming Languages</label>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label for="web_dev" class="text-sm">Web Development (HTML/CSS/JS)</label>
-                                    <span class="text-sm text-gray-600" id="web_dev_value">85%</span>
-                                </div>
-                                <input type="range" id="web_dev" name="web_dev" min="0" max="100"
-                                    value="85"
-                                    class="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label for="backend" class="text-sm">Backend (Python/PHP/Node)</label>
-                                    <span class="text-sm text-gray-600" id="backend_value">70%</span>
-                                </div>
-                                <input type="range" id="backend" name="backend" min="0" max="100"
-                                    value="70"
-                                    class="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label for="mobile" class="text-sm">Mobile Development</label>
-                                    <span class="text-sm text-gray-600" id="mobile_value">50%</span>
-                                </div>
-                                <input type="range" id="mobile" name="mobile" min="0" max="100"
-                                    value="50"
-                                    class="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label for="database" class="text-sm">Database & SQL</label>
-                                    <span class="text-sm text-gray-600" id="database_value">65%</span>
-                                </div>
-                                <input type="range" id="database" name="database" min="0" max="100"
-                                    value="65"
-                                    class="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer">
-                            </div>
+                        <div class="mt-3">
+                            <input type="text" id="other_soft" name="lang"
+                                placeholder="Separate skills with commas"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                     </div>
                 </div>

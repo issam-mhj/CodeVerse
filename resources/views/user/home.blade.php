@@ -46,7 +46,7 @@
             <span>Home</span>
         </a>
 
-        <a href="#"
+        <a href="posts"
             class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
             <i class="fa-solid fa-file-code mr-4 text-lg"></i>
             <span>Posts</span>
@@ -81,7 +81,6 @@
             <i class="fa-solid fa-briefcase mr-4 text-lg"></i>
             <span>Job Offers</span>
         </a>
-
         <a href="#"
             class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
             <i class="fa-solid fa-message mr-4 text-lg"></i>
@@ -123,130 +122,132 @@
 
         <!-- Post Composer -->
         <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
-            <textarea class="w-full border-none outline-none resize-none py-2 text-base bg-transparent"
-                placeholder="Share your code or expertise..."></textarea>
-            <div class="flex border-t border-gray-200 pt-4 mt-2">
-                <div class="flex items-center mr-5 text-primary cursor-pointer">
-                    <i class="fa-solid fa-image mr-1"></i>
-                    <span>Image</span>
-                </div>
-                <div class="flex items-center mr-5 text-primary cursor-pointer">
-                    <i class="fa-solid fa-code mr-1"></i>
-                    <span>Code</span>
-                </div>
-                <div class="flex items-center mr-5 text-primary cursor-pointer">
-                    <i class="fa-solid fa-link mr-1"></i>
-                    <span>Link</span>
-                </div>
-                <div class="flex-1"></div>
-                <button
-                    class="bg-primary text-white border-none rounded-full py-2 px-5 cursor-pointer transition-all duration-300 hover:bg-primary-dark">
-                    Post
-                </button>
+            <form action="">
+                <textarea class="w-full border-none outline-none resize-none py-2 text-base bg-transparent"
+                    placeholder="Share your code or expertise..."></textarea>
+                <div class="flex border-t border-gray-200 pt-4 mt-2">
+                    <div class="flex items-center mr-5 text-primary cursor-pointer">
+                        <i class="fa-solid fa-image mr-1"></i>
+                        <span>Image</span>
+                    </div>
+                    <div class="flex items-center mr-5 text-primary cursor-pointer">
+                        <i class="fa-solid fa-code mr-1"></i>
+                        <span>Code</span>
+                    </div>
+                    <div class="flex items-center mr-5 text-primary cursor-pointer">
+                        <i class="fa-solid fa-link mr-1"></i>
+                        <span>Link</span>
+                    </div>
+                    <div class="flex-1"></div>
+                    <button
+                        class="bg-primary text-white border-none rounded-full py-2 px-5 cursor-pointer transition-all duration-300 hover:bg-primary-dark">
+                        Post
+                    </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feed Posts -->
+    <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
+        <div class="flex items-center mb-4">
+            <div
+                class="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-white font-bold mr-3">
+                JS
+            </div>
+            <div>
+                <h4 class="font-semibold mb-1">Julie Smith</h4>
+                <span class="text-gray-600 text-sm">Full Stack Developer • 2h ago</span>
             </div>
         </div>
-
-        <!-- Feed Posts -->
-        <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
-            <div class="flex items-center mb-4">
-                <div
-                    class="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-white font-bold mr-3">
-                    JS
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-1">Julie Smith</h4>
-                    <span class="text-gray-600 text-sm">Full Stack Developer • 2h ago</span>
-                </div>
-            </div>
-            <div class="mb-4">
-                <p class="mb-3">
-                    I recently solved an optimization problem with React.
-                    Here's the solution:
-                </p>
-                <div class="bg-gray-100 p-4 rounded-lg font-mono my-4 overflow-x-auto">
-                    <pre>
+        <div class="mb-4">
+            <p class="mb-3">
+                I recently solved an optimization problem with React.
+                Here's the solution:
+            </p>
+            <div class="bg-gray-100 p-4 rounded-lg font-mono my-4 overflow-x-auto">
+                <pre>
 const useMemoizedCallback = (callback, deps) => {
   return React.useCallback(
     React.useMemo(() => callback, deps),
     deps
   );
 };</pre>
-                </div>
-                <p>
-                    This approach reduced unnecessary renders by 40%. What
-                    do you think?
-                </p>
             </div>
-            <div class="flex text-gray-600 text-sm mb-4">
-                <div class="mr-5">128 likes</div>
-                <div class="mr-5">24 comments</div>
-                <div>12 shares</div>
+            <p>
+                This approach reduced unnecessary renders by 40%. What
+                do you think?
+            </p>
+        </div>
+        <div class="flex text-gray-600 text-sm mb-4">
+            <div class="mr-5">128 likes</div>
+            <div class="mr-5">24 comments</div>
+            <div>12 shares</div>
+        </div>
+        <div class="flex border-t border-gray-200 pt-4">
+            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-regular fa-heart mr-1"></i>
+                <span>Like</span>
             </div>
-            <div class="flex border-t border-gray-200 pt-4">
-                <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-regular fa-heart mr-1"></i>
-                    <span>Like</span>
-                </div>
-                <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-regular fa-comment mr-1"></i>
-                    <span>Comment</span>
-                </div>
-                <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-solid fa-retweet mr-1"></i>
-                    <span>Share</span>
-                </div>
-                <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-regular fa-bookmark mr-1"></i>
-                    <span>Save</span>
-                </div>
+            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-regular fa-comment mr-1"></i>
+                <span>Comment</span>
+            </div>
+            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-solid fa-retweet mr-1"></i>
+                <span>Share</span>
+            </div>
+            <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-regular fa-bookmark mr-1"></i>
+                <span>Save</span>
             </div>
         </div>
+    </div>
 
-        <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
-            <div class="flex items-center mb-4">
-                <div
-                    class="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-white font-bold mr-3">
-                    MD
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-1">Michael Davis</h4>
-                    <span class="text-gray-600 text-sm">DevOps Engineer • 5h ago</span>
-                </div>
+    <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
+        <div class="flex items-center mb-4">
+            <div
+                class="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-white font-bold mr-3">
+                MD
             </div>
-            <div class="mb-4">
-                <p class="mb-3">
-                    Just published a tutorial on using Docker with Python.
-                    #Docker #Python
-                </p>
-                <img src="/api/placeholder/600/300" alt="Docker Python Tutorial" class="w-full rounded-lg mb-3" />
-                <p>
-                    Discover how to optimize your development environments!
-                </p>
-            </div>
-            <div class="flex text-gray-600 text-sm mb-4">
-                <div class="mr-5">95 likes</div>
-                <div class="mr-5">18 comments</div>
-                <div>32 shares</div>
-            </div>
-            <div class="flex border-t border-gray-200 pt-4">
-                <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-regular fa-heart mr-1"></i>
-                    <span>Like</span>
-                </div>
-                <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-regular fa-comment mr-1"></i>
-                    <span>Comment</span>
-                </div>
-                <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-solid fa-retweet mr-1"></i>
-                    <span>Share</span>
-                </div>
-                <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
-                    <i class="fa-regular fa-bookmark mr-1"></i>
-                    <span>Save</span>
-                </div>
+            <div>
+                <h4 class="font-semibold mb-1">Michael Davis</h4>
+                <span class="text-gray-600 text-sm">DevOps Engineer • 5h ago</span>
             </div>
         </div>
+        <div class="mb-4">
+            <p class="mb-3">
+                Just published a tutorial on using Docker with Python.
+                #Docker #Python
+            </p>
+            <img src="/api/placeholder/600/300" alt="Docker Python Tutorial" class="w-full rounded-lg mb-3" />
+            <p>
+                Discover how to optimize your development environments!
+            </p>
+        </div>
+        <div class="flex text-gray-600 text-sm mb-4">
+            <div class="mr-5">95 likes</div>
+            <div class="mr-5">18 comments</div>
+            <div>32 shares</div>
+        </div>
+        <div class="flex border-t border-gray-200 pt-4">
+            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-regular fa-heart mr-1"></i>
+                <span>Like</span>
+            </div>
+            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-regular fa-comment mr-1"></i>
+                <span>Comment</span>
+            </div>
+            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-solid fa-retweet mr-1"></i>
+                <span>Share</span>
+            </div>
+            <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
+                <i class="fa-regular fa-bookmark mr-1"></i>
+                <span>Save</span>
+            </div>
+        </div>
+    </div>
     </div>
 </body>
 
