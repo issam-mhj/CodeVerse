@@ -32,7 +32,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content' => 'required|string|max:255',
+            'image' => 'sometimes',
+            'codeSnippet' => 'sometimes',
+        ]);
+        $imagePath = null;
+        $codeSnippet = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+        if ($request->codeSnippet) {
+            $codeSnippet = $request->codeSnippet;
+        }
+
+        $userid = Auth::user()->id;
+        Post::create([
+            'content' => $request->content,
+            'image' => $imagePath,
+            'codeSnippet' => $codeSnippet,
+            'user_id' => $userid
+        ]);
+        return redirect()->back()->with("message", "your post has been created successfuly");
     }
 
     /**
@@ -64,6 +85,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->back()->with("deleted", "the post has deleted successfuly");
     }
 }

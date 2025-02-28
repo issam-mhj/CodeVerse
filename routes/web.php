@@ -9,5 +9,7 @@ Route::get('/profile', [UserController::class, "showProfile"])->name("profile");
 Route::get('/profile/update', [UserController::class, "showUpdateProfile"])->name("updateprofile");
 Route::post('/profile/update', [UserController::class, "updateProfile"])->name("updatedprofile");
 Route::get('/posts', [PostController::class, "index"])->name("myposts");
+Route::post('/posts', [PostController::class, "store"])->name("posts.store");
+Route::delete('/posts/delete/{post}', [PostController::class, "destroy"])->name("posts.delete");
 
 require __DIR__ . '/auth.php';

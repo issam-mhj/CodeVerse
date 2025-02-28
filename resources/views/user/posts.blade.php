@@ -110,6 +110,18 @@
         <!-- Header Section -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">My Posts</h1>
+            @if (session('message'))
+                <div class="alert alert-success text-green-600">
+                    <strong>Success!</strong> Your post has been created successfully.
+                </div>
+            @endif
+
+            @if (session('deleted'))
+                <div class="alert alert-danger text-red-600">
+                    <strong>Deleted!</strong> The post has been successfully deleted.
+                </div>
+            @endif
+
             <div class="flex space-x-3">
                 <div class="relative">
                     <input type="text" placeholder="Search my posts..."
@@ -129,147 +141,172 @@
 
         <!-- Post Composer -->
         <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
-            {{-- <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data"> --}}
-            @csrf
-            <textarea name="content" class="w-full border-none outline-none resize-none py-2 text-base bg-transparent h-24"
-                placeholder="Share your code or expertise..."></textarea>
+            <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <textarea name="content" class="w-full border-none outline-none resize-none py-2 text-base bg-transparent h-24"
+                    placeholder="Share your code or expertise..."></textarea>
 
-            <div id="code-editor" class="hidden">
-                <select name="language" class="py-2 px-4 border border-gray-200 rounded-md text-sm mb-2">
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                    <option value="php">PHP</option>
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
-                    <option value="ruby">Ruby</option>
-                    <option value="go">Go</option>
-                    <option value="typescript">TypeScript</option>
-                </select>
-                <textarea name="code"
-                    class="w-full border border-gray-200 outline-none resize-none py-2 px-4 text-base bg-gray-50 font-mono rounded-md h-32"
-                    placeholder="// Paste your code here"></textarea>
-            </div>
+                <div id="code-editor" class="hidden">
+                    <select name="language" class="py-2 px-4 border border-gray-200 rounded-md text-sm mb-2">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="php">PHP</option>
+                        <option value="html">HTML</option>
+                        <option value="css">CSS</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="go">Go</option>
+                        <option value="typescript">TypeScript</option>
+                    </select>
+                    <textarea name="codeSnippet"
+                        class="w-full border border-gray-200 outline-none resize-none py-2 px-4 text-base bg-gray-50 font-mono rounded-md h-32"
+                        placeholder="// Paste your code here"></textarea>
+                </div>
 
-            <div id="preview-image" class="hidden my-2 max-w-sm"></div>
+                <div id="preview-image" class="hidden my-2 max-w-sm"></div>
 
-            <div id="link-input" class="hidden my-2">
-                <input type="url" name="link"
-                    class="w-full border border-gray-200 outline-none py-2 px-4 text-base bg-gray-50 rounded-md"
-                    placeholder="https://example.com">
-            </div>
+                <div id="link-input" class="hidden my-2">
+                    <input type="url" name="link"
+                        class="w-full border border-gray-200 outline-none py-2 px-4 text-base bg-gray-50 rounded-md"
+                        placeholder="https://example.com">
+                </div>
 
-            <div class="flex border-t border-gray-200 pt-4 mt-2">
-                <div class="flex items-center mr-5 text-primary cursor-pointer" id="upload-image-btn">
-                    <i class="fa-solid fa-image mr-1"></i>
-                    <span>Image</span>
-                    <input type="file" name="image" class="hidden" id="image-upload" accept="image/*">
+                <div class="flex border-t border-gray-200 pt-4 mt-2">
+                    <div class="flex items-center mr-5 text-primary cursor-pointer" id="upload-image-btn">
+                        <i class="fa-solid fa-image mr-1"></i>
+                        <span>Image</span>
+                        <input type="file" name="image" class="hidden" id="image-upload">
+                    </div>
+                    <div class="flex items-center mr-5 text-primary cursor-pointer" id="toggle-code-btn">
+                        <i class="fa-solid fa-code mr-1"></i>
+                        <span>Code</span>
+                    </div>
+                    <div class="flex items-center mr-5 text-primary cursor-pointer" id="toggle-link-btn">
+                        <i class="fa-solid fa-link mr-1"></i>
+                        <span>Link</span>
+                    </div>
+                    <div class="flex items-center mr-5 text-primary cursor-pointer">
+                        <i class="fa-solid fa-hashtag mr-1"></i>
+                        <span>Hashtags</span>
+                    </div>
+                    <div class="flex-1"></div>
+                    <button type="submit"
+                        class="bg-primary text-white border-none rounded-full py-2 px-5 cursor-pointer transition-all duration-300 hover:bg-primary-dark">
+                        Post
+                    </button>
                 </div>
-                <div class="flex items-center mr-5 text-primary cursor-pointer" id="toggle-code-btn">
-                    <i class="fa-solid fa-code mr-1"></i>
-                    <span>Code</span>
-                </div>
-                <div class="flex items-center mr-5 text-primary cursor-pointer" id="toggle-link-btn">
-                    <i class="fa-solid fa-link mr-1"></i>
-                    <span>Link</span>
-                </div>
-                <div class="flex items-center mr-5 text-primary cursor-pointer">
-                    <i class="fa-solid fa-hashtag mr-1"></i>
-                    <span>Hashtags</span>
-                </div>
-                <div class="flex-1"></div>
-                <button type="submit"
-                    class="bg-primary text-white border-none rounded-full py-2 px-5 cursor-pointer transition-all duration-300 hover:bg-primary-dark">
-                    Post
-                </button>
-            </div>
-
-            <div class="pt-3 border-t border-gray-200 mt-3 hidden" id="hashtags-container">
-                <div class="text-sm text-gray-600 mb-2">Popular hashtags:</div>
-                <div class="flex flex-wrap gap-2">
-                    <span
-                        class="bg-gray-100 text-primary px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">#JavaScript</span>
-                    <span
-                        class="bg-gray-100 text-primary px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">#Python</span>
-                    <span
-                        class="bg-gray-100 text-primary px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">#React</span>
-                    <span
-                        class="bg-gray-100 text-primary px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">#WebDev</span>
-                    <span
-                        class="bg-gray-100 text-primary px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">#AI</span>
-                    <span
-                        class="bg-gray-100 text-primary px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">#DevOps</span>
-                </div>
-            </div>
             </form>
         </div>
 
         @forelse ($posts as $post)
-            <!-- User's Posts -->
-            <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
+            <div class="bg-white rounded-xl p-6 mb-6 shadow-md hover:shadow-lg transition-shadow duration-300">
                 <div class="flex items-center mb-4">
                     <div
-                        class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-3">
+                        class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-4 shadow-sm">
                         {{ substr($user->name, 0, 2) }}
                     </div>
                     <div>
-                        <h4 class="font-semibold mb-1">{{ $user->name }}</h4>
-                        <span class="text-gray-600 text-sm">{{ $user->profession }} •
+                        <h4 class="font-semibold text-lg mb-1">{{ $user->name }}</h4>
+                        <span class="text-gray-500 text-sm">{{ $user->profession }} •
                             {{ Carbon\Carbon::parse($post->created_at)->diffForHumans(['parts' => 1, 'short' => true]) }}</span>
                     </div>
                     <div class="ml-auto">
-                        <button class="text-gray-500 hover:text-primary">
+                        <button
+                            class="text-gray-400 hover:text-primary p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                         </button>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <p class="mb-3">
+
+                <!-- Post Content -->
+                <div class="mb-5">
+                    <p class="mb-4 text-gray-800 leading-relaxed">
                         {{ $post->content }}
                     </p>
+
                     @if ($post->codeSnippet)
-                        <div class="bg-gray-100 p-4 rounded-lg font-mono my-4 overflow-x-auto">
-                            <pre>
-                                $post->codeSnippet
-                            </pre>
+                        <div
+                            class="bg-gray-50 p-4 rounded-lg font-mono my-4 overflow-x-auto border border-gray-200 shadow-sm">
+                            <pre class="text-sm text-gray-800">{{ $post->codeSnippet }}</pre>
                         </div>
                     @endif
-                    @if ($post->images)
-                        <img src="{{ $post->images }}" alt="logo">
+                    @if ($post->image)
+                        <div class="mt-4 rounded-lg overflow-hidden shadow-sm mx-auto" style="max-width: 90%;">
+                            <img class="w-full object-cover max-h-96" src="{{ asset('storage/' . $post->image) }}"
+                                alt="Post image">
+                        </div>
                     @endif
-                    {{-- <p>
-                        What do you think? #Laravel #API #Authentication
-                    </p> --}}
                 </div>
-                <div class="flex text-gray-600 text-sm mb-4">
-                    <div class="mr-5">{{ $post->likes }} likes</div>
-                    <div class="mr-5">8 comments</div>
-                    <div>3 shares</div>
+
+                <!-- Engagement Stats -->
+                <div class="flex text-gray-500 text-sm mb-4">
+                    <div class="mr-6 flex items-center">
+                        <i class="fa-solid fa-heart text-red-400 mr-2"></i>
+                        <span>{{ $post->likes }} likes</span>
+                    </div>
+                    <div class="mr-6 flex items-center">
+                        <i class="fa-solid fa-comment text-blue-400 mr-2"></i>
+                        <span>8 comments</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-share text-green-400 mr-2"></i>
+                        <span>3 shares</span>
+                    </div>
                 </div>
-                <div class="flex border-t border-gray-200 pt-4">
-                    <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                        <i class="fa-regular fa-heart mr-1"></i>
+
+                <!-- Action Buttons -->
+                <div class="flex border-t border-gray-100 pt-4">
+                    <button
+                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary">
+                        <i class="fa-regular fa-heart mr-2"></i>
                         <span>Like</span>
-                    </div>
-                    <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                        <i class="fa-regular fa-comment mr-1"></i>
+                    </button>
+
+                    <button
+                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary">
+                        <i class="fa-regular fa-comment mr-2"></i>
                         <span>Comment</span>
-                    </div>
-                    <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                        <i class="fa-solid fa-retweet mr-1"></i>
+                    </button>
+
+                    <button
+                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary">
+                        <i class="fa-solid fa-retweet mr-2"></i>
                         <span>Share</span>
-                    </div>
-                    <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
-                        <i class="fa-solid fa-pencil mr-1"></i>
-                        <span>Edit</span>
-                    </div>
-                    <div class="flex items-center ml-8 cursor-pointer transition-all duration-300 hover:text-red-500">
-                        <i class="fa-solid fa-trash mr-1"></i>
-                        <span>Delete</span>
+                    </button>
+
+                    <div class="flex ml-auto">
+                        <button
+                            class="flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary mr-2">
+                            <i class="fa-solid fa-pencil mr-1"></i>
+                            <span>Edit</span>
+                        </button>
+                        <form action="{{ route('posts.delete', $post) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-red-500">
+                                <i class="fa-solid fa-trash mr-1"></i>
+                                <span>Delete</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         @empty
+            <div class="bg-white rounded-xl p-8 mb-6 shadow-md text-center">
+                <div class="flex flex-col items-center justify-center py-6">
+                    <div
+                        class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4">
+                        <i class="fa-regular fa-newspaper text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">No posts yet</h3>
+                    <p class="text-gray-500 mb-4">This user hasn't shared any posts</p>
+                    <button
+                        class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all duration-200">
+                        <i class="fa-solid fa-plus mr-2"></i>Create your first post
+                    </button>
+                </div>
+            </div>
         @endforelse
 
         <!-- Load More Button -->
