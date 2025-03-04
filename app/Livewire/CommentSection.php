@@ -30,9 +30,9 @@ class CommentSection extends Component
         $this->validate();
 
         Comment::create([
-            'comment' => $this->content,
+            'content' => $this->content,
             'post_id' => $this->post->id,
-            'user_id' => auth()->id()
+            'user_id' => Auth::user()->id
         ]);
 
         $this->content = '';

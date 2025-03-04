@@ -149,13 +149,12 @@
     @forelse ($posts as $post)
         <div class="bg-white rounded-xl p-6 mb-6 shadow-md hover:shadow-lg transition-shadow duration-300">
             <div class="flex items-center mb-4">
-                <div
-                    class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-4 shadow-sm">
-                    {{ substr($user->name, 0, 2) }}
-                </div>
+                <img class="mr-4 w-12 h-12 rounded-full"
+                    src="{{ $post->user->image ? asset('storage/' . $post->user->image) : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
+                    alt="image">
                 <div>
-                    <h4 class="font-semibold text-lg mb-1">{{ $user->name }}</h4>
-                    <span class="text-gray-500 text-sm">{{ $user->profession }} •
+                    <h4 class="font-semibold text-lg mb-1">{{ $post->user->name }}</h4>
+                    <span class="text-gray-500 text-sm">{{ $post->user->profession }} •
                         {{ Carbon\Carbon::parse($post->created_at)->diffForHumans(['parts' => 1, 'short' => true]) }}</span>
                 </div>
                 <div class="ml-auto">
@@ -209,14 +208,7 @@
 
             <!-- Comments Section  -->
             <div id="comments-section-{{ $post->id }}" class="mt-4 pt-3 border-t border-gray-100 hidden">
-                <div class="flex gap-3">
-                    <div
-                        class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white text-sm flex-shrink-0">
-                        {{ substr($user->name, 0, 2) }}
-                    </div>
-                    @livewire('comment-section', ['post' => $post])
-
-                </div>
+                @livewire('comment-section', ['post' => $post])
             </div>
         </div>
     @empty

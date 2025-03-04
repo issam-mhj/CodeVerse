@@ -121,7 +121,8 @@
             </div>
 
             <!-- Profile Form -->
-            <form class="bg-white rounded-lg shadow-sm p-6 mb-6" method="POST" action="/profile/update">
+            <form class="bg-white rounded-lg shadow-sm p-6 mb-6" method="POST" enctype="multipart/form-data"
+                action="/profile/update">
                 @csrf
                 <!-- Profile Picture Section -->
                 <div class="mb-8">
@@ -129,13 +130,13 @@
                     <div class="flex items-center">
                         <div class="relative">
                             <div class="w-24 h-24 bg-yellow-400 rounded-full overflow-hidden">
-                                <img src="{{ $user->image ? $user->image : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
+                                <img src="{{ $user->image ? asset('storage/' . $user->image) : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
                                     alt="Profile picture" class="h-full w-full object-cover" />
                             </div>
                             <label for="profile-picture"
                                 class="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-lg cursor-pointer">
                                 <i class="fa-solid fa-camera"></i>
-                                <input type="file" id="profile-picture" class="hidden" />
+                                <input type="file" name="image" id="profile-picture" class="hidden" />
                             </label>
                         </div>
                         <div class="ml-6">
@@ -205,7 +206,7 @@
                             yourself</label>
                         <textarea id="bio" name="biography" rows="4"
                             placeholder="Share your professional story and interests..."
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">{{ $user->biography }}</textarea>
                         <p class="text-xs text-gray-500 mt-1">Maximum 500 characters</p>
                     </div>
                 </div>

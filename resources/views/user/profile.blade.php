@@ -41,12 +41,12 @@
         </div>
 
         <a href="home"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300 bg-primary text-white">
+            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
             <i class="fa-solid fa-house mr-4 text-lg"></i>
             <span>Home</span>
         </a>
 
-        <a href="#"
+        <a href="posts"
             class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
             <i class="fa-solid fa-file-code mr-4 text-lg"></i>
             <span>Posts</span>
@@ -65,7 +65,7 @@
         </a>
 
         <a href="profile"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
+            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300 bg-primary text-white">
             <i class="fa-solid fa-user mr-4 text-lg"></i>
             <span>Profile</span>
         </a>
@@ -114,12 +114,12 @@
                     <div class="flex flex-col items-center">
                         <!-- Profile Picture Container -->
                         <div class="relative bg-yellow-400 rounded-full h-40 w-40 overflow-hidden mb-4">
-                            <img src="{{ $user->image ?? 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
+                            <img src="{{ $user->image ? asset('storage/' . $user->image) : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
                                 alt="Profile picture" class="h-full w-full object-cover" />
 
                             @if (!$user->image)
                                 <!-- Add Profile Icon -->
-                                <div
+                                <a href="profile/update"
                                     class="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -127,7 +127,7 @@
                                             d="M5 7a2 2 0 012-2h2l1-1h4l1 1h2a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7zm2 0v10h10V7H7zm5 2a3 3 0 110 6 3 3 0 010-6z"
                                             clip-rule="evenodd" />
                                     </svg>
-                                </div>
+                                </a>
                             @endif
                         </div>
 
@@ -143,6 +143,14 @@
                         <!-- Other Profile Details -->
                         <div class="w-full bg-white rounded-lg p-4 mt-4">
                             <div class="space-y-2 text-sm">
+                                <div class="flex">
+                                    <span class="text-gray-600 w-24">email:</span>
+                                    @if ($user->email)
+                                        <span class="text-gray-800">{{ $user->email }}</span>
+                                    @else
+                                        <span class="text-red-500 italic">Complete your profile information</span>
+                                    @endif
+                                </div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-gray-600 font-medium w-24">Age:</span>
                                     @if ($user->age)
@@ -160,11 +168,17 @@
                                         <span class="text-red-500 italic">Complete your profile information</span>
                                     @endif
                                 </div>
-                                <div class="flex">
+                                <div class="flex items-center">
                                     <span class="text-gray-600 w-24">GitHub:</span>
                                     @if ($user->githubProfile)
                                         <a href="{{ $user->githubProfile }}" target="_blank"
-                                            class="text-blue-500">{{ $user->githubProfile }}</a>
+                                            class="text-blue-500">account</a>
+                                        <svg width="40" height="40" viewBox="0 0 40 40"
+                                            xmlns="http://www.w3.org/2000/svg" class="ml-2">
+                                            <path
+                                                d="M20 20c0-5.5-4.5-10-10-10S0 14.5 0 20c0 4.4 2.85 8.1 6.85 9.4.5.1.65-.2.65-.45v-1.75c-2.75.6-3.35-1.2-3.35-1.2-.45-1.1-1.1-1.4-1.1-1.4-.9-.6.05-.6.05-.6 1 .05 1.5 1 1.5 1 .85 1.5 2.3 1.1 2.9.85.1-.65.35-1.1.65-1.35-2.25-.25-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.25-.45-1.25.1-2.6 0 0 .8-.25 2.65 1 .75-.2 1.6-.3 2.4-.3.8 0 1.65.1 2.4.3 1.85-1.25 2.65-1 2.65-1 .55 1.35.2 2.35.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.35 4.65-4.6 4.9.35.3.7.9.7 1.85v2.75c0 .25.2.55.65.45 4-1.3 6.85-5 6.85-9.4z"
+                                                fill="#333" />
+                                        </svg>
                                     @else
                                         <span class="text-red-500 italic">Complete your profile information</span>
                                     @endif

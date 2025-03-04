@@ -200,10 +200,11 @@
 
         @forelse ($posts as $post)
             <div class="bg-white rounded-xl p-6 mb-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div class="flex items-center mb-4">
-                    <div
-                        class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-4 shadow-sm">
-                        {{ substr($user->name, 0, 2) }}
+                <div class="flex items-center mb-4 ">
+                    <div>
+                        <img class="mr-4 w-12 h-12 rounded-full"
+                            src="{{ $user->image ? asset('storage/' . $user->image) : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
+                            alt="image">
                     </div>
                     <div>
                         <h4 class="font-semibold text-lg mb-1">{{ $user->name }}</h4>

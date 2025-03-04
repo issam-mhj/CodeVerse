@@ -27,13 +27,13 @@ class UserController extends Controller
     }
     public function updateProfile(Request $request)
     {
-
         $user = Auth::user();
 
         $validatedData = $request->validate([
             'name' => 'sometimes|string|max:255',
             'profession' => 'sometimes|string|max:255',
             'age' => 'sometimes',
+            'image' => 'sometimes',
             'location' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . $user->id,
             'biography' => 'sometimes',
@@ -42,9 +42,12 @@ class UserController extends Controller
             'cert' => 'sometimes',
             'lang' => 'sometimes'
         ]);
-        // dd($validatedData);
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $imagePath;
+        }
         $user->update($validatedData);
-
         return redirect()->back()->with('success', 'Information updated successfully!');
     }
 }
