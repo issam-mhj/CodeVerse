@@ -52,7 +52,7 @@
             <span>Posts</span>
         </a>
 
-        <a href="#"
+        <a href="/connections"
             class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
             <i class="fa-solid fa-users mr-4 text-lg"></i>
             <span>Connections</span>
@@ -146,109 +146,110 @@
             </form>
         </div>
     </div>
+    @forelse ($posts as $post)
+        <div class="bg-white rounded-xl p-6 mb-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="flex items-center mb-4">
+                <div
+                    class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-4 shadow-sm">
+                    {{ substr($user->name, 0, 2) }}
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg mb-1">{{ $user->name }}</h4>
+                    <span class="text-gray-500 text-sm">{{ $user->profession }} •
+                        {{ Carbon\Carbon::parse($post->created_at)->diffForHumans(['parts' => 1, 'short' => true]) }}</span>
+                </div>
+                <div class="ml-auto">
+                    <button
+                        class="text-gray-400 hover:text-primary p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                </div>
+            </div>
 
-    <!-- Feed Posts -->
-    <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
-        <div class="flex items-center mb-4">
-            <div
-                class="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-white font-bold mr-3">
-                JS
+            <!-- Post Content -->
+            <div class="mb-5">
+                <p class="mb-4 text-gray-800 leading-relaxed">
+                    {{ $post->content }}
+                </p>
+
+                @if ($post->codeSnippet)
+                    <div
+                        class="bg-gray-50 p-4 rounded-lg font-mono my-4 overflow-x-auto border border-gray-200 shadow-sm">
+                        <pre class="text-sm text-gray-800">{{ $post->codeSnippet }}</pre>
+                    </div>
+                @endif
+                @if ($post->image)
+                    <div class="mt-4 rounded-lg overflow-hidden shadow-sm mx-auto" style="max-width: 90%;">
+                        <img class="w-full object-cover max-h-96" src="{{ asset('storage/' . $post->image) }}"
+                            alt="Post image">
+                    </div>
+                @endif
             </div>
-            <div>
-                <h4 class="font-semibold mb-1">Julie Smith</h4>
-                <span class="text-gray-600 text-sm">Full Stack Developer • 2h ago</span>
+
+            <div class="flex border-t border-gray-100 pt-4">
+                <!-- Like Button -->
+                @livewire('like-button', ['post' => $post])
+
+                <!-- Comment Button -->
+                <button
+                    class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary comment-toggle"
+                    aria-label="Comment" onclick="toggleComments({{ $post->id }})">
+                    <i class="fa-regular fa-comment mr-2"></i>
+                    <span>Comment</span>
+                </button>
+
+                <!-- Share Button -->
+                <button
+                    class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary"
+                    aria-label="Share">
+                    <i class="fa-solid fa-retweet mr-2"></i>
+                    <span>Share</span>
+                </button>
+            </div>
+
+            <!-- Comments Section  -->
+            <div id="comments-section-{{ $post->id }}" class="mt-4 pt-3 border-t border-gray-100 hidden">
+                <div class="flex gap-3">
+                    <div
+                        class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white text-sm flex-shrink-0">
+                        {{ substr($user->name, 0, 2) }}
+                    </div>
+                    @livewire('comment-section', ['post' => $post])
+
+                </div>
             </div>
         </div>
-        <div class="mb-4">
-            <p class="mb-3">
-                I recently solved an optimization problem with React.
-                Here's the solution:
-            </p>
-            <div class="bg-gray-100 p-4 rounded-lg font-mono my-4 overflow-x-auto">
-                <pre>
-const useMemoizedCallback = (callback, deps) => {
-  return React.useCallback(
-    React.useMemo(() => callback, deps),
-    deps
-  );
-};</pre>
-            </div>
-            <p>
-                This approach reduced unnecessary renders by 40%. What
-                do you think?
-            </p>
-        </div>
-        <div class="flex text-gray-600 text-sm mb-4">
-            <div class="mr-5">128 likes</div>
-            <div class="mr-5">24 comments</div>
-            <div>12 shares</div>
-        </div>
-        <div class="flex border-t border-gray-200 pt-4">
-            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-regular fa-heart mr-1"></i>
-                <span>Like</span>
-            </div>
-            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-regular fa-comment mr-1"></i>
-                <span>Comment</span>
-            </div>
-            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-solid fa-retweet mr-1"></i>
-                <span>Share</span>
-            </div>
-            <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-regular fa-bookmark mr-1"></i>
-                <span>Save</span>
+    @empty
+        <div class="bg-white rounded-xl p-8 mb-6 shadow-md text-center">
+            <div class="flex flex-col items-center justify-center py-6">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4">
+                    <i class="fa-regular fa-newspaper text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">No posts yet</h3>
+                <p class="text-gray-500 mb-4">This user hasn't shared any posts</p>
+                <button
+                    class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all duration-200">
+                    <i class="fa-solid fa-plus mr-2"></i>Create your first post
+                </button>
             </div>
         </div>
+    @endforelse
+
     </div>
 
-    <div class="bg-white rounded-xl p-5 mb-5 shadow-sm">
-        <div class="flex items-center mb-4">
-            <div
-                class="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-white font-bold mr-3">
-                MD
-            </div>
-            <div>
-                <h4 class="font-semibold mb-1">Michael Davis</h4>
-                <span class="text-gray-600 text-sm">DevOps Engineer • 5h ago</span>
-            </div>
-        </div>
-        <div class="mb-4">
-            <p class="mb-3">
-                Just published a tutorial on using Docker with Python.
-                #Docker #Python
-            </p>
-            <img src="/api/placeholder/600/300" alt="Docker Python Tutorial" class="w-full rounded-lg mb-3" />
-            <p>
-                Discover how to optimize your development environments!
-            </p>
-        </div>
-        <div class="flex text-gray-600 text-sm mb-4">
-            <div class="mr-5">95 likes</div>
-            <div class="mr-5">18 comments</div>
-            <div>32 shares</div>
-        </div>
-        <div class="flex border-t border-gray-200 pt-4">
-            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-regular fa-heart mr-1"></i>
-                <span>Like</span>
-            </div>
-            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-regular fa-comment mr-1"></i>
-                <span>Comment</span>
-            </div>
-            <div class="flex items-center mr-8 cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-solid fa-retweet mr-1"></i>
-                <span>Share</span>
-            </div>
-            <div class="flex items-center cursor-pointer transition-all duration-300 hover:text-primary">
-                <i class="fa-regular fa-bookmark mr-1"></i>
-                <span>Save</span>
-            </div>
-        </div>
-    </div>
-    </div>
+    <!-- JavaScript for toggling comments -->
+    <script>
+        function toggleComments(postId) {
+            const commentsSection = document.getElementById(`comments-section-${postId}`);
+            if (commentsSection) {
+                if (commentsSection.classList.contains('hidden')) {
+                    commentsSection.classList.remove('hidden');
+                } else {
+                    commentsSection.classList.add('hidden');
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

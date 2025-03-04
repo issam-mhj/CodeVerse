@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -11,7 +12,8 @@ class UserController extends Controller
     public function showHome()
     {
         $user = Auth::user();
-        return view("user/home", ["user" => $user]);
+        $posts = Post::latest()->get();;
+        return view("user/home", ["user" => $user, "posts" => $posts]);
     }
     public function showProfile()
     {

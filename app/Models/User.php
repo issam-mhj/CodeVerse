@@ -37,6 +37,17 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function connections(): HasMany
+    {
+        return $this->hasMany(Connection::class);
+    }
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

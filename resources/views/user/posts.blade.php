@@ -238,53 +238,46 @@
                     @endif
                 </div>
 
-                <!-- Engagement Stats -->
-                <div class="flex text-gray-500 text-sm mb-4">
-                    <div class="mr-6 flex items-center">
-                        <i class="fa-solid fa-heart text-red-400 mr-2"></i>
-                        <span>{{ $post->likes }} likes</span>
-                    </div>
-                    <div class="mr-6 flex items-center">
-                        <i class="fa-solid fa-comment text-blue-400 mr-2"></i>
-                        <span>8 comments</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-share text-green-400 mr-2"></i>
-                        <span>3 shares</span>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
                 <div class="flex border-t border-gray-100 pt-4">
-                    <button
-                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary">
-                        <i class="fa-regular fa-heart mr-2"></i>
-                        <span>Like</span>
-                    </button>
+                    <!-- Like Button -->
+                    @livewire('like-button', ['post' => $post])
 
+                    <!-- Comment Button -->
                     <button
-                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary">
+                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary"
+                        aria-label="Comment">
                         <i class="fa-regular fa-comment mr-2"></i>
                         <span>Comment</span>
                     </button>
 
+                    <!-- Share Button -->
                     <button
-                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary">
+                        class="flex items-center justify-center mr-4 flex-1 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary"
+                        aria-label="Share">
                         <i class="fa-solid fa-retweet mr-2"></i>
                         <span>Share</span>
                     </button>
 
+                    <!-- Edit and Delete Buttons -->
                     <div class="flex ml-auto">
-                        <button
-                            class="flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary mr-2">
-                            <i class="fa-solid fa-pencil mr-1"></i>
-                            <span>Edit</span>
-                        </button>
+                        <!-- Edit Button -->
+                        <form action="{{ route('posts.edit', $post) }}" method="get">
+                            @csrf
+                            <button
+                                class="flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-primary mr-2"
+                                aria-label="Edit">
+                                <i class="fa-solid fa-pencil mr-1"></i>
+                                <span>Edit</span>
+                            </button>
+                        </form>
+
+                        <!-- Delete Button -->
                         <form action="{{ route('posts.delete', $post) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-red-500">
+                                class="flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-red-500"
+                                aria-label="Delete">
                                 <i class="fa-solid fa-trash mr-1"></i>
                                 <span>Delete</span>
                             </button>
@@ -326,7 +319,7 @@
                     <div class="text-gray-600">Total Posts</div>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-primary mb-1">347</div>
+                    <div class="text-3xl font-bold text-primary mb-1"></div>
                     <div class="text-gray-600">Total Likes</div>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">

@@ -6,6 +6,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -69,7 +70,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $user = Auth::user();
+        return view("user/updatePost", ["post" => $post, "user" => $user]);
     }
 
     /**
@@ -77,7 +79,24 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $newpost = $request->validate([
+            'content' => 'required|string|max:255',
+            'image' => 'sometimes',
+            'codeSnippet' => 'sometimes',
+        ]);
+        $codeSnippet = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $newpost['image'] = $imagePath;
+        }
+        if ($request->codeSnippet) {
+            $codeSnippet = $request->codeSnippet;
+            $newpost['codeSnippet'] = $codeSnippet;
+        }
+
+
+        $post->update($newpost);
+        return redirect()->back()->with("message", "your post has been created successfuly");
     }
 
     /**
