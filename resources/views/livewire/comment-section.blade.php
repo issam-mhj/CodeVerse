@@ -25,7 +25,7 @@
                 @foreach ($post->comments as $comment)
                     <div class="flex gap-3">
                         <img class="w-10 h-10 rounded-full"
-                            src="{{ $post->user->image ? asset('storage/' . $post->user->image) : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
+                            src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' }}"
                             alt="image">
                         <div class="flex-1">
                             <div class="bg-gray-50 rounded-xl p-3 mb-1">

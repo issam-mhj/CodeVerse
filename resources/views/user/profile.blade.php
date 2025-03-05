@@ -239,6 +239,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="bg-white rounded-lg p-6 shadow-sm">
+                        <h2 class="text-xl font-bold mb-4">projects</h2>
+
+                        <div class="space-y-4">
+                            <div>
+                                @if ($user->project)
+                                    <div class="flex justify-between mb-1">
+                                        <span>{{ $user->project }}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-primary h-2.5 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                @else
+                                    <span class="text-red-500 italic">Complete your profile information</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
