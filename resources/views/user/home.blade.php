@@ -147,6 +147,38 @@
         </div>
     </div>
     @forelse ($posts as $post)
+        @php
+            $status = 'connect';
+            $connectionId = null;
+
+            foreach ($connections as $connection) {
+                if (
+                    $connection->user_id == Auth::id() &&
+                    $connection->user_id2 == $post->user->id &&
+                    $connection->is_accepted == 0
+                ) {
+                    $status = 'sent';
+                    break;
+                } elseif (
+                    $connection->user_id2 == Auth::id() &&
+                    $connection->user_id == $post->user->id &&
+                    $connection->is_accepted == 0
+                ) {
+                    $status = 'received';
+                    $connectionId = $connection->id;
+                    break;
+                } elseif (
+                    ($connection->user_id == Auth::id() && $connection->user_id2 == $post->user->id) ||
+                    ($connection->user_id2 == Auth::id() && $connection->user_id == $post->user->id)
+                ) {
+                    if ($connection->is_accepted == 1) {
+                        $status = 'friends';
+                        break;
+                    }
+                }
+            }
+        @endphp
+
         <div class="bg-white rounded-xl p-6 mb-6 shadow-md hover:shadow-lg transition-shadow duration-300">
             <div class="flex items-center mb-4">
                 <img class="mr-4 w-12 h-12 rounded-full"
@@ -158,10 +190,51 @@
                         {{ Carbon\Carbon::parse($post->created_at)->diffForHumans(['parts' => 1, 'short' => true]) }}</span>
                 </div>
                 <div class="ml-auto">
-                    <button
-                        class="text-gray-400 hover:text-primary p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
+                    <!-- Only show connection UI if not friends -->
+                    @if ($status != 'friends' && Auth::id() != $post->user->id)
+                        @if ($status == 'sent')
+                            <div class="flex items-center px-4 py-2 bg-yellow-100 rounded-full text-yellow-600">
+                                <i class="fa-solid fa-paper-plane mr-2"></i>
+                                <span class="text-sm font-medium">Request Sent</span>
+                            </div>
+                        @elseif ($status == 'received')
+                            <div class="flex space-x-2">
+                                <form action="{{ route('connect.accept', $post->user->id) }}" method="POST"
+                                    class="inline">
+                                    @csrf
+                                    <input type="hidden" name="action" value="accept">
+                                    <button type="submit"
+                                        class="px-3 py-2 bg-green-500 text-white rounded-full text-sm font-medium hover:bg-green-600 transition-colors">
+                                        <i class="fa-solid fa-check mr-1"></i> Accept
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('connect.accept', $post->user->id) }}" method="POST"
+                                    class="inline">
+                                    @csrf
+                                    <input type="hidden" name="action" value="reject">
+                                    <button type="submit"
+                                        class="px-3 py-2 bg-red-500 text-white rounded-full text-sm font-medium hover:bg-red-600 transition-colors">
+                                        <i class="fa-solid fa-xmark mr-1"></i> Reject
+                                    </button>
+                                </form>
+                            </div>
+                        @else
+                            <form action="{{ route('user.connect', ['id' => $post->user->id]) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="user_id2" value="{{ $post->user->id }}">
+                                <button type="submit"
+                                    class="px-4 py-2 bg-green-500 text-white rounded-full text-sm font-medium hover:bg-green-600 transition-colors">
+                                    <i class="fa-solid fa-user-plus mr-2"></i> Connect
+                                </button>
+                            </form>
+                        @endif
+                    @else
+                        <button
+                            class="text-gray-400 hover:text-primary p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    @endif
                 </div>
             </div>
 
@@ -242,6 +315,8 @@
             }
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

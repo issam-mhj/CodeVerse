@@ -18,11 +18,13 @@ Route::get('/posts/edit/{post}', [PostController::class, "edit"])->name("posts.e
 Route::put('/posts/update/{post}', [PostController::class, "update"])->name("posts.update");
 // Route::post('/addcomment/{post}', [CommentController::class, "store"])->name("comment.store");
 Route::get('/connections', [ConnectionController::class, "index"])->name("connection");
+Route::post('/connections/sendRequest/{id}', [ConnectionController::class, "store"])->name("user.connect");
+Route::post('/connections/accept/{id}', [ConnectionController::class, "acceptRequest"])->name("connect.accept");
+Route::post('/connections/reject/{id}', [ConnectionController::class, "rejectRequest"])->name("connect.reject");
 Route::get('/tweet', [TweetController::class, 'create'])->name('tweets.create');
 Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store');
 Route::view('pusher1', 'pusher1');
 Route::view('pusher2', 'pusher2');
-Route::post('/connections/sendRequest/{id}', [ConnectionController::class, "store"])->name("user.connect");
 
 
 require __DIR__ . '/auth.php';

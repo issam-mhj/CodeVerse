@@ -262,42 +262,48 @@
 
                     foreach ($connections as $connection) {
                         if (
-                            ($friend->user_id == Auth::id() && $friend->user_id2 == $user->id) ||
-                            ($friend->user_id2 == Auth::id() && $friend->user_id == $user->id)
+                            $connection->user_id2 == Auth::id() &&
+                            $connection->user_id == $user->id &&
+                            $connection->is_accepted == 0
                         ) {
-                            if ($friend->is_accepted == 1) {
-                                $status = 'friends';
-                                break;
-                            }
+                            $status = 'received';
+                            break;
                         }
                     }
                 @endphp
 
-                @if ($status == 'friends')
+                @if ($status == 'received')
                     <div class="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300">
                         <div class="flex items-center mb-4">
                             <img class="mr-4 w-14 h-14 rounded-full"
                                 src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="Profile Image">
                             <div>
-                                <h4 class="font-semibold text-lg">Mike Johnson</h4>
-                                <span class="text-gray-600 text-sm">Backend Developer</span>
+                                <h4 class="font-semibold text-lg">{{ $user->name }}</h4>
+                                <span class="text-gray-600 text-sm">{{ $user->profession }}</span>
                             </div>
                         </div>
                         <div class="flex items-center mb-3">
                             <i class="fa-solid fa-location-dot text-gray-500 mr-2"></i>
-                            <span class="text-gray-600 text-sm">Chicago, IL</span>
+                            <span
+                                class="text-gray-600 text-sm">{{ $user->location ? $user->location : 'Unknown' }}</span>
                         </div>
                         <div class="flex space-x-2">
-                            <button
-                                class="flex-1 py-2 px-4 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all duration-300">
-                                <i class="fa-solid fa-check mr-2"></i>
-                                Accept
-                            </button>
-                            <button
-                                class="flex-1 py-2 px-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all duration-300">
-                                <i class="fa-solid fa-times mr-2"></i>
-                                Decline
-                            </button>
+                            <form action="{{ route('connect.accept', $user->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="flex-1 py-2 px-4 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all duration-300">
+                                    <i class="fa-solid fa-check mr-2"></i>
+                                    Accept
+                                </button>
+                            </form>
+                            <form action="{{ route('connect.reject', $user->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="flex-1 py-2 px-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all duration-300">
+                                    <i class="fa-solid fa-times mr-2"></i>
+                                    Decline
+                                </button>
+                            </form>
                         </div>
                     </div>
                 @endif

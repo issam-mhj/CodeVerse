@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Connection;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,26 @@ class ConnectionController extends Controller
             "is_accepted" => false
         ]);
         return redirect()->back()->with("the connection has sent successfuly");
+    }
+    public function acceptRequest($id)
+    {
+        // dd($id);
+        Connection::where([
+            ['user_id', '=', $id],
+            ['user_id2', '=', Auth::id()],
+            ['is_accepted', '=', false]
+        ])->update(['is_accepted' => true]);
+        return redirect()->back()->with("accepted", "You are now friends");
+    }
+    public function rejectRequest($id)
+    {
+
+        Connection::where([
+            ['user_id', '=', $id],
+            ['user_id2', '=', Auth::id()],
+            ['is_accepted', '=', false]
+        ])->delete();
+        return redirect()->back()->with("rejected");
     }
 
     /**
