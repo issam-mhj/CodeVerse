@@ -15,17 +15,10 @@ class ConnectionController extends Controller
     public function index()
     {
         $user = Auth::user();
-
-        // $connectedUserIds = $user->connections()->pluck('connected_user_id')
-        //     ->merge($user->connectedWith()->pluck('user_id'))
-        //     ->unique()
-        //     ->toArray();
-
-        // $connectedUserIds[] = $user->id;
-
-        // $users = User::whereNotIn('id', $connectedUserIds)->get();
-
-        return view("user/connections", ["user" => $user]);
+        $connections = Connection::where('user_id', $user->id)->orWhere('user_id2', $user->id)->get();
+        $friends = Connection::where(['user_id' => $user->id, 'is_accepted' => true])->orWhere(['user_id2' => $user->id, 'is_accepted' => true])->get();
+        $users = User::where('id', '!=', $user->id)->get();
+        return view("user/connections", ["users" => $users, "user" => $user, "connections" => $connections, "friends" => $friends]);
     }
 
 
@@ -42,7 +35,12 @@ class ConnectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Connection::create([
+            "user_id" => Auth::user()->id,
+            "user_id2" => $request->id,
+            "is_accepted" => false
+        ]);
+        return redirect()->back()->with("the connection has sent successfuly");
     }
 
     /**

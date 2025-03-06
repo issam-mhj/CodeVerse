@@ -22,5 +22,7 @@ Route::get('/tweet', [TweetController::class, 'create'])->name('tweets.create');
 Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store');
 Route::view('pusher1', 'pusher1');
 Route::view('pusher2', 'pusher2');
+Route::post('/connections/sendRequest/{id}', [ConnectionController::class, "store"])->name("user.connect");
+
 
 require __DIR__ . '/auth.php';
