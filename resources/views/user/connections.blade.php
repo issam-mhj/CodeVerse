@@ -27,79 +27,85 @@
 
 <body class="flex bg-[#f5f9ff] text-gray-800">
     <!-- Sidebar Navigation -->
-    <div class="fixed w-64 h-screen bg-white p-0 border-r border-gray-200">
-        <div class="flex items-center justify-center mb-8 text-primary font-bold text-2xl pt-5">
-            <svg width="300" height="80" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="40" cy="50" r="20" fill="#007bff" />
-                <text x="33" y="57" font-family="Arial" font-size="20" fill="white" font-weight="bold">
-                    C
-                </text>
-                <text x="65" y="65" font-family="Serif" font-size="30" fill="#007bff">
-                    ODEVERSE
-                </text>
+    <div class="fixed h-screen w-64 bg-white shadow-lg z-10">
+        <div class="flex items-center justify-center h-20 border-b border-gray-100">
+            <svg width="180" height="50" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="50" r="20" fill="#1e88e5" />
+                <text x="33" y="57" font-family="Arial" font-size="20" fill="white" font-weight="bold">C</text>
+                <text x="65" y="58" font-family="Arial" font-size="24" fill="#1e88e5" font-weight="bold">ODEVERSE</text>
             </svg>
         </div>
 
-        <a href="home"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-house mr-4 text-lg"></i>
-            <span>Home</span>
-        </a>
+        <div class="py-6 px-2">
+            <a href="home"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-house w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Home</span>
+            </a>
 
-        <a href="posts"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-file-code mr-4 text-lg"></i>
-            <span>Posts</span>
-        </a>
+            <a href="posts"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-file-code w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Posts</span>
+            </a>
 
-        <a href="#"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300 bg-primary text-white">
-            <i class="fa-solid fa-users mr-4 text-lg"></i>
-            <span>Connections</span>
-        </a>
+            <a href="#"
+                class="sidebar-item active flex items-center py-3 px-4 my-1 rounded-lg bg-blue-50 text-primary transition-all duration-200">
+                >
+                <i class="fa-solid fa-users w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Connections</span>
+            </a>
 
-        <a href="#"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-bell mr-4 text-lg"></i>
-            <span>Notifications</span>
-        </a>
+            <a href="#"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-bell w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Notifications</span>
+            </a>
 
-        <a href="profile"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-user mr-4 text-lg"></i>
-            <span>Profile</span>
-        </a>
+            <a href="profile"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-user w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Profile</span>
+            </a>
 
-        <a href="#"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-hashtag mr-4 text-lg"></i>
-            <span>Explore</span>
-        </a>
+            <a href="#"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-hashtag w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Explore</span>
+            </a>
 
-        <a href="#"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-briefcase mr-4 text-lg"></i>
-            <span>Job Offers</span>
-        </a>
-        <a href="#"
-            class="flex items-center py-3 px-6 text-gray-800 hover:bg-primary-light hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-message mr-4 text-lg"></i>
-            <span>Messages</span>
-        </a>
+            <a href="#"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-briefcase w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Job Offers</span>
+            </a>
 
-        <button
-            class="mx-5 mt-5 py-2 px-4 bg-primary text-white border-none rounded-full text-base font-bold cursor-pointer transition-all duration-300 hover:bg-primary-dark w-[calc(100%-40px)]">
-            <i class="fa-solid fa-plus mr-2"></i>
-            <span>Post</span>
-        </button>
+            <a href="#"
+                class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
+                <i class="fa-solid fa-message w-6 text-center mr-4 text-lg"></i>
+                <span class="font-medium">Messages</span>
+            </a>
+
+            <button
+                class="mt-6 flex items-center justify-center w-full py-3 px-4 bg-primary text-white rounded-lg font-medium shadow-md hover:bg-primary-dark transition-all duration-200">
+                <i class="fa-solid fa-plus mr-2"></i>
+                <span>Create Post</span>
+            </button>
+        </div>
 
         <!-- User Profile Widget -->
-        <div class="flex items-center p-5 mt-12 border-t border-gray-200">
-            <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-300 flex items-center justify-center">
-                <span class="text-white font-bold">IM</span>
-            </div>
-            <div class="flex flex-col">
-                <span class="font-medium text-sm">{{ $user->name }}</span>
+        <div class="absolute bottom-0 w-full border-t border-gray-100">
+            <div class="flex items-center p-4">
+                <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-primary flex items-center justify-center">
+                    <span class="text-white font-bold">IM</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-medium text-sm">{{ $user->name }}</span>
+                    <span class="text-xs text-gray-500">View profile</span>
+                </div>
+                <button class="ml-auto text-gray-400 hover:text-primary">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
             </div>
         </div>
     </div>

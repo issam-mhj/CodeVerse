@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models;
 use App\Models\Connection;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -26,6 +27,11 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return view("user/updateprofile", ["user" => $user]);
+    }
+    public function showUserProfile(User $user)
+    {
+        $connections = Connection::where('user_id', $user->id)->orWhere('user_id2', $user->id)->get();
+        return view("user/userProfile", ["user" => $user, "connections" => $connections]);
     }
     public function updateProfile(Request $request)
     {

@@ -21,10 +21,15 @@ Route::get('/connections', [ConnectionController::class, "index"])->name("connec
 Route::post('/connections/sendRequest/{id}', [ConnectionController::class, "store"])->name("user.connect");
 Route::post('/connections/accept/{id}', [ConnectionController::class, "acceptRequest"])->name("connect.accept");
 Route::post('/connections/reject/{id}', [ConnectionController::class, "rejectRequest"])->name("connect.reject");
+Route::get('/profile/{user}', [UserController::class, "showUserProfile"])->name("user.profile");
 Route::get('/tweet', [TweetController::class, 'create'])->name('tweets.create');
 Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store');
 Route::view('pusher1', 'pusher1');
 Route::view('pusher2', 'pusher2');
-
+Route::get('/notifications/all', function () {
+    return view('notifications.index', [
+        'notifications' => auth()->user()->notifications()->paginate(10)
+    ]);
+})->middleware(['auth'])->name('notifications.all');
 
 require __DIR__ . '/auth.php';
