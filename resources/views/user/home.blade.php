@@ -7,6 +7,10 @@
     <title>DevConnect - Social Network for Developers</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23007bff'/%3E%3Ctext x='35' y='63' font-family='Arial' font-size='40' fill='white' font-weight='bold'%3EC%3C/text%3E%3C/svg%3E"
+        type="image/svg+xml">
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
@@ -89,7 +93,6 @@
 
             <a href="connections"
                 class="sidebar-item flex items-center py-3 px-4 my-1 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-primary transition-all duration-200">
-                >
                 <i class="fa-solid fa-users w-6 text-center mr-4 text-lg"></i>
                 <span class="font-medium">Connections</span>
             </a>
@@ -133,17 +136,35 @@
 
         <!-- User Profile Widget -->
         <div class="absolute bottom-0 w-full border-t border-gray-100">
-            <div class="flex items-center p-4">
-                <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-primary flex items-center justify-center">
-                    <span class="text-white font-bold">IM</span>
+            <div class="relative flex items-center p-4">
+                <!-- User Profile -->
+                <div class="flex items-center flex-1">
+                    <div
+                        class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-primary flex items-center justify-center">
+                        <span class="text-white font-bold">IM</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-medium text-sm">{{ $user->name }}</span>
+                        <span class="text-xs text-gray-500">View profile</span>
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <span class="font-medium text-sm">{{ $user->name }}</span>
-                    <span class="text-xs text-gray-500">View profile</span>
-                </div>
-                <button class="ml-auto text-gray-400 hover:text-primary">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
+
+                <!-- Dropdown Trigger -->
+                <button id="logout-dropdown-trigger" aria-label="Account menu" aria-haspopup="true"
+                    aria-expanded="false"
+                    class="p-2 text-gray-400 hover:text-primary rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fa-solid fa-gear text-lg"></i>
                 </button>
+                <div id="logout-dropdown" role="menu"
+                    class="hidden absolute right-4 bottom-full mb-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+                    <form action="/logout" method="POST" role="menuitem" class="hover:bg-gray-50 transition-colors">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
+                            Log Out
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -350,6 +371,46 @@
 
     <!-- JavaScript for toggling comments -->
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const trigger = document.querySelector('#logout-dropdown-trigger');
+            const dropdown = document.querySelector('#logout-dropdown');
+
+            // Toggle dropdown
+            function toggleDropdown(show = true) {
+                dropdown.classList.toggle('hidden', !show);
+                trigger.setAttribute('aria-expanded', show.toString());
+            }
+
+            // Click handler
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                toggleDropdown(!isExpanded);
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Keyboard navigation for accessibility
+            dropdown.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && !e.shiftKey) {
+                    toggleDropdown(false);
+                }
+            });
+        });
+    </script>
+    <script>
         function toggleComments(postId) {
             const commentsSection = document.getElementById(`comments-section-${postId}`);
             if (commentsSection) {
@@ -398,6 +459,7 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

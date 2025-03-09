@@ -7,6 +7,10 @@
     <title>DevConnect - My Posts</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23007bff'/%3E%3Ctext x='35' y='63' font-family='Arial' font-size='40' fill='white' font-weight='bold'%3EC%3C/text%3E%3C/svg%3E"
+        type="image/svg+xml">
+
     <script>
         tailwind.config = {
             theme: {
@@ -95,12 +99,37 @@
         </button>
 
         <!-- User Profile Widget -->
-        <div class="flex items-center p-5 mt-12 border-t border-gray-200">
-            <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-300 flex items-center justify-center">
-                <span class="text-white font-bold">{{ substr($user->name, 0, 2) }}</span>
-            </div>
-            <div class="flex flex-col">
-                <span class="font-medium text-sm">{{ $user->name }}</span>
+        <div class="absolute bottom-0 w-full border-t border-gray-100">
+            <div class="relative flex items-center p-4">
+                <!-- User Profile -->
+                <div class="flex items-center flex-1">
+                    <div
+                        class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-primary flex items-center justify-center">
+                        <span class="text-white font-bold">IM</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-medium text-sm">{{ $user->name }}</span>
+                        <span class="text-xs text-gray-500">View profile</span>
+                    </div>
+                </div>
+
+                <!-- Dropdown Trigger -->
+                <button id="logout-dropdown-trigger" aria-label="Account menu" aria-haspopup="true"
+                    aria-expanded="false"
+                    class="p-2 text-gray-400 hover:text-primary rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fa-solid fa-gear text-lg"></i>
+                </button>
+                <div id="logout-dropdown" role="menu"
+                    class="hidden absolute right-4 bottom-full mb-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+                    <form action="{{ route('logout') }}" method="POST" role="menuitem"
+                        class="hover:bg-gray-50 transition-colors">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
+                            Log Out
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -179,59 +208,59 @@
             </div>
             <div id="edit-form" class="hidden bg-gray-50 p-5 rounded-lg mt-4">
                 <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <textarea name="content" class="w-full border-none outline-none resize-none py-2 text-base bg-transparent h-24"
-                    placeholder="Update your post...">{{ $post->content }}</textarea>
-                <div id="code-editor" class="{{ $post->codeSnippet ? '' : 'hidden' }}">
-                    <select name="language" class="py-2 px-4 border border-gray-200 rounded-md text-sm mb-2">
-                        <option value="javascript" {{ $post->language == 'javascript' ? 'selected' : '' }}>
-                            JavaScript</option>
-                        <option value="python" {{ $post->language == 'python' ? 'selected' : '' }}>Python
-                        </option>
-                        <option value="java" {{ $post->language == 'java' ? 'selected' : '' }}>Java</option>
-                        <option value="php" {{ $post->language == 'php' ? 'selected' : '' }}>PHP</option>
-                        <option value="html" {{ $post->language == 'html' ? 'selected' : '' }}>HTML</option>
-                        <option value="css" {{ $post->language == 'css' ? 'selected' : '' }}>CSS</option>
-                        <option value="ruby" {{ $post->language == 'ruby' ? 'selected' : '' }}>Ruby</option>
-                        <option value="go" {{ $post->language == 'go' ? 'selected' : '' }}>Go</option>
-                        <option value="typescript" {{ $post->language == 'typescript' ? 'selected' : '' }}>
-                            TypeScript</option>
-                    </select>
-                    <textarea name="codeSnippet"
-                        class="w-full border border-gray-200 outline-none resize-none py-2 px-4 text-base bg-gray-50 font-mono rounded-md h-32"
-                        placeholder="// Paste your code here">{{ $post->codeSnippet }}</textarea>
-                </div>
-                <div id="preview-image" class="my-2 max-w-sm">
+                    @csrf
+                    @method('PUT')
+                    <textarea name="content" class="w-full border-none outline-none resize-none py-2 text-base bg-transparent h-24"
+                        placeholder="Update your post...">{{ $post->content }}</textarea>
+                    <div id="code-editor" class="{{ $post->codeSnippet ? '' : 'hidden' }}">
+                        <select name="language" class="py-2 px-4 border border-gray-200 rounded-md text-sm mb-2">
+                            <option value="javascript" {{ $post->language == 'javascript' ? 'selected' : '' }}>
+                                JavaScript</option>
+                            <option value="python" {{ $post->language == 'python' ? 'selected' : '' }}>Python
+                            </option>
+                            <option value="java" {{ $post->language == 'java' ? 'selected' : '' }}>Java</option>
+                            <option value="php" {{ $post->language == 'php' ? 'selected' : '' }}>PHP</option>
+                            <option value="html" {{ $post->language == 'html' ? 'selected' : '' }}>HTML</option>
+                            <option value="css" {{ $post->language == 'css' ? 'selected' : '' }}>CSS</option>
+                            <option value="ruby" {{ $post->language == 'ruby' ? 'selected' : '' }}>Ruby</option>
+                            <option value="go" {{ $post->language == 'go' ? 'selected' : '' }}>Go</option>
+                            <option value="typescript" {{ $post->language == 'typescript' ? 'selected' : '' }}>
+                                TypeScript</option>
+                        </select>
+                        <textarea name="codeSnippet"
+                            class="w-full border border-gray-200 outline-none resize-none py-2 px-4 text-base bg-gray-50 font-mono rounded-md h-32"
+                            placeholder="// Paste your code here">{{ $post->codeSnippet }}</textarea>
+                    </div>
+                    <div id="preview-image" class="my-2 max-w-sm">
 
-                </div>
-                <div id="link-input" class="{{ $post->link ? '' : 'hidden' }} my-2">
-                    <input type="url" name="link"
-                        class="w-full border border-gray-200 outline-none py-2 px-4 text-base bg-gray-50 rounded-md"
-                        placeholder="https://example.com" value="{{ $post->link }}">
-                </div>
-                <div class="flex border-t border-gray-200 pt-4 mt-2">
-                    <div class="flex items-center mr-5 text-primary cursor-pointer"
-                        onclick="document.getElementById('image-upload').click()">
-                        <i class="fa-solid fa-image mr-1"></i>
-                        <span>Image</span>
-                        <input type="file" name="image" class="hidden" id="image-upload"
-                            onchange="previewImage(event)">
                     </div>
-                    <div class="flex items-center mr-5 text-primary cursor-pointer" onclick="toggleCodeEditor()">
-                        <i class="fa-solid fa-code mr-1"></i>
-                        <span>Code</span>
+                    <div id="link-input" class="{{ $post->link ? '' : 'hidden' }} my-2">
+                        <input type="url" name="link"
+                            class="w-full border border-gray-200 outline-none py-2 px-4 text-base bg-gray-50 rounded-md"
+                            placeholder="https://example.com" value="{{ $post->link }}">
                     </div>
-                    <div class="flex items-center mr-5 text-primary cursor-pointer" onclick="toggleLinkInput()">
-                        <i class="fa-solid fa-link mr-1"></i>
-                        <span>Link</span>
+                    <div class="flex border-t border-gray-200 pt-4 mt-2">
+                        <div class="flex items-center mr-5 text-primary cursor-pointer"
+                            onclick="document.getElementById('image-upload').click()">
+                            <i class="fa-solid fa-image mr-1"></i>
+                            <span>Image</span>
+                            <input type="file" name="image" class="hidden" id="image-upload"
+                                onchange="previewImage(event)">
+                        </div>
+                        <div class="flex items-center mr-5 text-primary cursor-pointer" onclick="toggleCodeEditor()">
+                            <i class="fa-solid fa-code mr-1"></i>
+                            <span>Code</span>
+                        </div>
+                        <div class="flex items-center mr-5 text-primary cursor-pointer" onclick="toggleLinkInput()">
+                            <i class="fa-solid fa-link mr-1"></i>
+                            <span>Link</span>
+                        </div>
+                        <div class="flex-1"></div>
+                        <button type="submit"
+                            class="bg-primary text-white border-none rounded-full py-2 px-5 cursor-pointer transition-all duration-300 hover:bg-primary-dark">
+                            Update
+                        </button>
                     </div>
-                    <div class="flex-1"></div>
-                    <button type="submit"
-                        class="bg-primary text-white border-none rounded-full py-2 px-5 cursor-pointer transition-all duration-300 hover:bg-primary-dark">
-                        Update
-                    </button>
-                </div>
                 </form>
             </div>
         </div>
@@ -278,6 +307,44 @@
             preview.innerHTML = '';
             document.getElementById('image-upload').value = '';
         }
+        document.addEventListener("DOMContentLoaded", function() {
+            const trigger = document.querySelector('#logout-dropdown-trigger');
+            const dropdown = document.querySelector('#logout-dropdown');
+
+            // Toggle dropdown
+            function toggleDropdown(show = true) {
+                dropdown.classList.toggle('hidden', !show);
+                trigger.setAttribute('aria-expanded', show.toString());
+            }
+
+            // Click handler
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                toggleDropdown(!isExpanded);
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Keyboard navigation for accessibility
+            dropdown.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && !e.shiftKey) {
+                    toggleDropdown(false);
+                }
+            });
+        });
     </script>
 </body>
 

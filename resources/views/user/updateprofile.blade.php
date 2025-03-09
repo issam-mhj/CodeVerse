@@ -7,6 +7,10 @@
     <title>CodeVerse - Update Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23007bff'/%3E%3Ctext x='35' y='63' font-family='Arial' font-size='40' fill='white' font-weight='bold'%3EC%3C/text%3E%3C/svg%3E"
+        type="image/svg+xml">
+
     <script>
         tailwind.config = {
             theme: {
@@ -95,12 +99,37 @@
         </button>
 
         <!-- User Profile Widget -->
-        <div class="flex items-center p-5 mt-12 border-t border-gray-200">
-            <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-300 flex items-center justify-center">
-                <span class="text-white font-bold">IM</span>
-            </div>
-            <div class="flex flex-col">
-                <span class="font-medium text-sm">{{ $user->name }}</span>
+        <div class="absolute bottom-0 w-full border-t border-gray-100">
+            <div class="relative flex items-center p-4">
+                <!-- User Profile -->
+                <div class="flex items-center flex-1">
+                    <div
+                        class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-primary flex items-center justify-center">
+                        <span class="text-white font-bold">IM</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-medium text-sm">{{ $user->name }}</span>
+                        <span class="text-xs text-gray-500">View profile</span>
+                    </div>
+                </div>
+
+                <!-- Dropdown Trigger -->
+                <button id="logout-dropdown-trigger" aria-label="Account menu" aria-haspopup="true"
+                    aria-expanded="false"
+                    class="p-2 text-gray-400 hover:text-primary rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fa-solid fa-gear text-lg"></i>
+                </button>
+                <div id="logout-dropdown" role="menu"
+                    class="hidden absolute right-4 bottom-full mb-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+                    <form action="{{ route('logout') }}" method="POST" role="menuitem"
+                        class="hover:bg-gray-50 transition-colors">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
+                            Log Out
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -151,7 +180,8 @@
                     <h2 class="text-lg font-semibold mb-4">Basic Information</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full
+                                Name</label>
                             <input type="text" id="name" name="name" value="{{ $user->name }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
@@ -270,6 +300,44 @@
                 input.addEventListener('input', function() {
                     document.getElementById(this.id + '_value').textContent = this.value + '%';
                 });
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const trigger = document.querySelector('#logout-dropdown-trigger');
+            const dropdown = document.querySelector('#logout-dropdown');
+
+            // Toggle dropdown
+            function toggleDropdown(show = true) {
+                dropdown.classList.toggle('hidden', !show);
+                trigger.setAttribute('aria-expanded', show.toString());
+            }
+
+            // Click handler
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                toggleDropdown(!isExpanded);
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Keyboard navigation for accessibility
+            dropdown.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && !e.shiftKey) {
+                    toggleDropdown(false);
+                }
             });
         });
     </script>
