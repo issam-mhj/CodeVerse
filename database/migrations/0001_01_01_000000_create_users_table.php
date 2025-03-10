@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->integer('age')->nullable();
             $table->json('skills')->nullable();
-            $table->json('hardSkills')->nullable();
             $table->json('languages')->nullable();
             $table->string('githubProfile')->nullable();
             $table->text('biography')->nullable();

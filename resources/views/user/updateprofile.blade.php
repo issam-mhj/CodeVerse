@@ -99,7 +99,7 @@
         </button>
 
         <!-- User Profile Widget -->
-        <div class="absolute bottom-0 w-full border-t border-gray-100">
+        <div class=" bottom-0 w-full border-t border-gray-100">
             <div class="relative flex items-center p-4">
                 <!-- User Profile -->
                 <div class="flex items-center flex-1">

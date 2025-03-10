@@ -22,15 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'skills',
         'githubProfile',
         'biography',
         'profession',
         'image',
         'location',
         'age',
-        'hardSkills',
-        'languages'
     ];
     public function posts(): HasMany
     {
